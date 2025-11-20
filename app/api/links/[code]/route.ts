@@ -4,10 +4,10 @@ import { sql } from '@/lib/db';
 // GET /api/links/:code - Get stats for a single link
 export async function GET(
   request: NextRequest,
-  { params }: { params: { code: string } }
+  { params }: { params: Promise<{ code: string }> }
 ) {
   try {
-    const { code } = params;
+    const { code } = await params;
 
     const result = await sql`
       SELECT id, code, target_url, total_clicks, last_clicked_at, created_at
@@ -35,10 +35,10 @@ export async function GET(
 // DELETE /api/links/:code - Delete a link
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { code: string } }
+  { params }: { params: Promise<{ code: string }> }
 ) {
   try {
-    const { code } = params;
+    const { code } = await params;
 
     const result = await sql`
       DELETE FROM links
